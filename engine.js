@@ -10,7 +10,31 @@ function difficulty(round){return Math.min(100,Math.max(1,Math.floor(1+(round-1)
 function deathSlots(d){return d<35?0:d<70?1:2;}
 function eligible(d){return cardRegistry.all().filter(c=>d>=c.minDifficulty&&d<=c.maxDifficulty);}
 function weightedPick(cards){const total=cards.reduce((s,c)=>s+Number(c.chance||1),0);let n=Math.random()*total;for(const c of cards){n-=Number(c.chance||1);if(n<=0)return c;}return cards.at(-1);}
-function deckFor(d){const pool=eligible(d),result=[];const positive=pool.filter(c=>c.classification!=="DEATH"&&!c.effects?.some(e=>e.type==="DEATH"));if(pool.length<5||positive.length===0)throw new Error("Not enough valid cards configured for this difficulty");while(result.length<5){const c=weightedPick(pool);if(d<35&&(c.classification==="DEATH"||c.effects?.some(e=>e.type==="DEATH")))continue;if(!result.some(x=>x.id===c.id))result.push(c);}const deaths=result.filter(c=>c.classification==="DEATH"||c.effects?.some(e=>e.type==="DEATH")).length;const allowed=deathSlots(d);if(deaths>allowed){const safe=positive.find(c=>!result.some(x=>x.id===c.id));if(safe){for(let i=0;i<result.length;i++)if(result[i].classification==="DEATH"||result[i].effects?.some(e=>e.type==="DEATH")){result[i]=safe;break;}}}return result;}
+function deckFor(d){
+  const pool=eligible(d);
+  const positive=pool.filter(c=>c.classification!=="DEATH"&&!c.effects?.some(e=>e.type==="DEATH"));
+  const target=Math.min(5,pool.length);
+  if(target===0||positive.length===0)throw new Error("No valid cards configured for this difficulty");
+
+  const result=[];
+  const safePool=d<35?positive:pool;
+  while(result.length<target){
+    const c=weightedPick(safePool);
+    if(!result.some(x=>x.id===c.id))result.push(c);
+  }
+
+  const deaths=result.filter(c=>c.classification==="DEATH"||c.effects?.some(e=>e.type==="DEATH")).length;
+  const allowed=deathSlots(d);
+  if(deaths>allowed){
+    const safe=positive.find(c=>!result.some(x=>x.id===x.id));
+    if(safe){
+      for(let i=0;i<result.length;i++){
+        if(result[i].classification==="DEATH"||result[i].effects?.some(e=>e.type==="DEATH")){result[i]=safe;break;}
+      }
+    }
+  }
+  return result;
+}
 
 export class DeckEngine {
  async start(userId){if(games.has(userId))throw new Error("GAME_ALREADY_ACTIVE");const player=await getPlayer(userId);if(player.gameState)throw new Error("GAME_ALREADY_ACTIVE");const now=Date.now();const state={id:crypto.randomUUID(),userId,score:0,round:1,difficulty:1,shields:0,deck:deckFor(1),selected:false,startedAt:now,expiresAt:now+config.cardTimeoutMs,eventLog:[]};await saveGame(userId,state);games.set(userId,state);return state;}
