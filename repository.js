@@ -1,8 +1,8 @@
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "./db.js";
 import { players, playerItems, playerRecovery, botAdmins, botAdminPermissions, musicTracks } from "./schema.js";
-import { config } from "./config.js";
-
+import { config.js";
+  
 export async function ensurePlayer(userId) {
   await db.insert(players).values({userId, vp: BigInt(config.defaultVP)}).onConflictDoNothing();
   return (await db.select().from(players).where(eq(players.userId,userId)).limit(1))[0];
