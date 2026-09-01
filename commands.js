@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 
 export const commands=[
 new SlashCommandBuilder().setName("ping").setDescription("Check VELVET"),
@@ -6,7 +6,8 @@ new SlashCommandBuilder().setName("vp").setDescription("Show your VP"),
 new SlashCommandBuilder().setName("inventory").setDescription("Show your inventory"),
 new SlashCommandBuilder().setName("collection").setDescription("Show your collection"),
 new SlashCommandBuilder().setName("leaderboard").setDescription("Top players"),
-new SlashCommandBuilder().setName("play").setDescription("Play VELVET").addSubcommand(s=>s.setName("card").setDescription("Enter the Deck").addIntegerOption(o=>o.setName("entry").setDescription("VP entry").setRequired(true).setMinValue(1))),
+new SlashCommandBuilder().setName("play").setDescription("Play VELVET").addSubcommand(s=>s.setName("card").setDescription("Start a point run")),
+new SlashCommandBuilder().setName("cashout").setDescription("Convert your run score into VP"),
 new SlashCommandBuilder().setName("daily").setDescription("Claim daily reward"),
 new SlashCommandBuilder().setName("recovery").setDescription("Claim recovery reward"),
 new SlashCommandBuilder().setName("admin").setDescription("Owner admin management").addSubcommand(s=>s.setName("add").setDescription("Add admin").addUserOption(o=>o.setName("user").setDescription("User").setRequired(true))).addSubcommand(s=>s.setName("remove").setDescription("Remove admin").addUserOption(o=>o.setName("user").setDescription("User").setRequired(true))).addSubcommand(s=>s.setName("list").setDescription("List admins")).addSubcommand(s=>s.setName("permissions").setDescription("Set permissions").addUserOption(o=>o.setName("user").setDescription("User").setRequired(true)).addStringOption(o=>o.setName("permissions").setDescription("Comma-separated permissions").setRequired(true))),
