@@ -1,4 +1,4 @@
-import { atomicAddVP, addItem } from "../database/repository.js";
+import { atomicAddVP, addItem } from "./repository.js";
 
 export const EFFECTS = new Set(["ADD_VP","REMOVE_VP","MULTIPLY","DIVIDE","GEM","DEATH","SHIELD","STEAL","JACKPOT","COLLECTIBLE"]);
 
