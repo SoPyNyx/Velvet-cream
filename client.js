@@ -1,13 +1,13 @@
 import {
   Client, GatewayIntentBits, Events, ActionRowBuilder, ButtonBuilder, ButtonStyle
 } from "discord.js";
-import { config } from "../config.js";
-import { DeckEngine } from "../game/engine.js";
-import { collectibleRegistry } from "../game/definitions.js";
-import { getPlayer, getItems, leaderboard, claimRecovery, addAdmin, removeAdmin, listAdmins, setAdminPermissions, listMusicTracks, findMusicByName } from "../database/repository.js";
-import { can, ownerOnly, PERMISSIONS } from "../utils/permissions.js";
+import { config } from "./config.js";
+import { DeckEngine } from "./engine.js";
+import { collectibleRegistry } from "./definitions.js";
+import { getPlayer, getItems, leaderboard, claimRecovery, addAdmin, removeAdmin, listAdmins, setAdminPermissions, listMusicTracks, findMusicByName } from "./repository.js";
+import { can, ownerOnly, PERMISSIONS } from "./permissions.js";
 import { velvetEmbed, deckEmbed } from "./embeds.js";
-import { addTrack, removeTrack, playTrack, stop } from "../services/music.js";
+import { addTrack, removeTrack, playTrack, stop } from "./music.js";
 
 export const client=new Client({intents:[GatewayIntentBits.Guilds,GatewayIntentBits.GuildVoiceStates]});
 export const engine=new DeckEngine();
@@ -20,7 +20,6 @@ const errors={
   ROUND_ALREADY_RESOLVED:"This card has already been resolved.",
   INVALID_CARD:"Invalid card.",
   TIMEOUT:"Time expired. Your entry was returned; the accumulated pot was not.",
-  INSUFFICIENT_VP:"You do not have enough VP.",
   COOLDOWN:"This reward is still on cooldown.",
   NO_FILE:"Attach an audio file.",
   FILE_TOO_LARGE:"Audio file is too large.",
@@ -30,7 +29,7 @@ const errors={
 };
 
 function replyError(i,e){return i.reply({embeds:[velvetEmbed("VELVET",errors[e.message]||e.message||"Something went wrong.")],ephemeral:true});}
-function cardRow(state){return new ActionRowBuilder().addComponents(state.deck.map((c,n)=>new ButtonBuilder().setCustomId(`deck:${state.id}:${n}`).setLabel(`${n+1} · ${c.name}`.slice(0,80)).setStyle(ButtonStyle.Secondary)));}
+function cardRow(state){return new ActionRowBuilder().addComponents(state.deck.map((c,n)=>new ButtonBuilder().setCustomId(`deck:${state.id}:${n}`).setLabel(`${n+1} · ${c.name}`.slice(0,80)).setStyle(ButtonStyle.Primary)));}
 
 client.once(Events.ClientReady,async()=>{console.log(`VELVET online as ${client.user.tag}`);});
 
@@ -42,7 +41,8 @@ client.on(Events.InteractionCreate,async i=>{
       if(!state || state.id!==gameId) return i.reply({content:"This game is no longer active.",ephemeral:true});
       await i.deferUpdate();
       const result=await engine.select(i.user.id,Number(index));
-      if(result.status==="DEATH") return i.editReply({embeds:[velvetEmbed("VELVET DECK — RUN ENDED",`You selected **${result.card.name}**.\nThe run ended. The accumulated pot was lost.`)],components:[]});
+      if(result.status==="DEATH") return i.editReply({embeds:[velvetEmbed("VELVET DECK — RUN ENDED",`You selected **${result.card.name}**.
+The run ended. The accumulated pot was lost.`)],components:[]});
       const e=result.state;
       return i.editReply({embeds:[deckEmbed(e)],components:[cardRow(e)]});
     }
@@ -69,7 +69,9 @@ client.on(Events.InteractionCreate,async i=>{
     if(name==="daily"||name==="recovery"){
       const reward=name==="daily"?250:500;
       const r=await claimRecovery(u,reward);
-      return i.reply({embeds:[velvetEmbed(name==="daily"?"VELVET DAILY":"VELVET RECOVERY",`Reward: **+${reward} VP**\nStreak: **${r.streak}**\nNext claim: <t:${Math.floor(r.next.getTime()/1000)}:R>`)]});
+      return i.reply({embeds:[velvetEmbed(name==="daily"?"VELVET DAILY":"VELVET RECOVERY",`Reward: **+${reward} VP**
+Streak: **${r.streak}**
+Next claim: <t:${Math.floor(r.next.getTime()/1000)}:R>`)]});
     }
     if(name==="admin"){
       if(!ownerOnly(u)) return i.reply({content:"Owner only.",ephemeral:true});
@@ -107,7 +109,7 @@ client.on(Events.InteractionCreate,async i=>{
       const tracks=await listMusicTracks(); return i.reply({embeds:[velvetEmbed("VELVET MUSIC",tracks.map(t=>`**${t.id}.** ${t.name}`).join("\n")||"Library empty.")]});
     }
     if(["join","leave"].includes(name)) return i.reply("Voice command is available through the existing voice integration.");
-    if(["connect","disconnect","avatar","banner","profile","add","edit","remove","list"].includes(name)) return i.reply("This command surface is preserved; wire it to your existing OAuth/content UI when those modules are present.");
+    if(["connect","disconnect","avatar","banner","profile","add","edit","remove","list"].includes(name)) return i.reply("This command surface is preserved; wire it to your existing OAuth/content management service.");
   } catch(e){console.error(e); if(i.replied||i.deferred) return i.followUp({content:errors[e.message]||"Something went wrong.",ephemeral:true}); return replyError(i,e);}
 });
 

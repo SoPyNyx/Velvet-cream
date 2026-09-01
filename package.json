@@ -5,12 +5,17 @@
   "type": "module",
   "description": "VELVET Discord card game and local music bot",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node index.js",
-    "deploy:commands": "commands.js",
+    "dev": "node --watch index.js",
+    "deploy:commands": "node deploy-commands.js",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
-    "check": "node --check index.js"
+    "check": "node --check index.js && node --check client.js && node --check db.js",
+    "lint": "node --check *.js"
   },
   "dependencies": {
     "@discordjs/voice": "^0.19.0",
