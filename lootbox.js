@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { addItem, atomicAddVP } from "../database/repository.js";
+import { addItem, atomicAddVP } from "./repository.js";
 import { collectibleRegistry } from "./definitions.js";
-import { config } from "../config.js";
+import { config } from "./config.js";
 
-const file = path.resolve(path.dirname(fileURLToPath(import.meta.url)),"../../content/lootbox.json");
+const file = path.resolve(path.dirname(fileURLToPath(import.meta.url)),"lootbox.json");
 let definition = JSON.parse(fs.readFileSync(file,"utf8"));
 
 function pick(items) {

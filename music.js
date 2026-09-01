@@ -3,8 +3,8 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { createAudioPlayer, createAudioResource, AudioPlayerStatus, joinVoiceChannel, NoSubscriberBehavior, StreamType } from "@discordjs/voice";
 import ffmpegPath from "ffmpeg-static";
-import { config } from "../config.js";
-import { addMusicTrack, findMusicByName, listMusicTracks, removeMusicTrack } from "../database/repository.js";
+import { config } from "./config.js";
+import { addMusicTrack, findMusicByName, listMusicTracks, removeMusicTrack } from "./repository.js";
 
 const players=new Map();
 await fs.mkdir(config.musicDirectory,{recursive:true});

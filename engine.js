@@ -2,8 +2,8 @@ import crypto from "node:crypto";
 import { cardRegistry } from "./definitions.js";
 import { applyEffects } from "./effects.js";
 import { lootboxChance, openLootbox } from "./lootbox.js";
-import { clearGame, getPlayer, saveGame, atomicAddVP, atomicSpendVP } from "../database/repository.js";
-import { config } from "../config.js";
+import { clearGame, getPlayer, saveGame, atomicAddVP, atomicSpendVP } from "./repository.js";
+import { config } from "./config.js";
 
 const games=new Map();
 
