@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "./db.js";
 import { players, playerItems, playerRecovery, botAdmins, botAdminPermissions, musicTracks } from "./schema.js";
-import { config.js";
+import { config } from "./config.js";
   
 export async function ensurePlayer(userId) {
   await db.insert(players).values({userId, vp: BigInt(config.defaultVP)}).onConflictDoNothing();
