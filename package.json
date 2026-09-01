@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "deploy:commands": "deploy-commands.js",
+    "deploy:commands": "commands.js",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
     "check": "node --check index.js"
