@@ -1,0 +1,4 @@
+VELVET host-ready package generated from the requested specification.
+Note: this package could not be reconciled against the user's private/existing source because the actual repository source was not available in the current workspace. It is therefore a self-contained implementation, not a verified patch of the existing repository.
+JS syntax checks: 16/16 passed.
+All JavaScript files passed node --check.

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "velvet-blessing",
+    "name": "Velvet Blessing",
+    "description": "A clean VP reward.",
+    "rarity": "COMMON",
+    "chance": 30,
+    "minDifficulty": 1,
+    "maxDifficulty": 100,
+    "classification": "POSITIVE",
+    "effects": [{"type":"ADD_VP","amount":100}]
+  },
+  {
+    "id": "red-coin",
+    "name": "Red Coin",
+    "description": "Gain a modest amount of VP.",
+    "rarity": "COMMON",
+    "chance": 25,
+    "minDifficulty": 1,
+    "maxDifficulty": 100,
+    "classification": "POSITIVE",
+    "effects": [{"type":"ADD_VP","amount":75}]
+  },
+  {
+    "id": "velvet-shield",
+    "name": "Velvet Shield",
+    "description": "Protects you from one death.",
+    "rarity": "RARE",
+    "chance": 10,
+    "minDifficulty": 1,
+    "maxDifficulty": 100,
+    "classification": "POSITIVE",
+    "effects": [{"type":"SHIELD","amount":1}]
+  },
+  {
+    "id": "double-down",
+    "name": "Double Down",
+    "description": "A gamble with two possible outcomes.",
+    "rarity": "EPIC",
+    "chance": 8,
+    "minDifficulty": 20,
+    "maxDifficulty": 100,
+    "classification": "GAMBLE",
+    "outcomes": [
+      {"weight":70,"effects":[{"type":"MULTIPLY","factor":2}]},
+      {"weight":30,"effects":[{"type":"REMOVE_VP","amount":150}]}
+    ]
+  },
+  {
+    "id": "jackpot",
+    "name": "Jackpot",
+    "description": "A rare multiplier event.",
+    "rarity": "LEGENDARY",
+    "chance": 2,
+    "minDifficulty": 50,
+    "maxDifficulty": 100,
+    "classification": "POSITIVE",
+    "effects": [{"type":"JACKPOT","multiplier":5}]
+  },
+  {
+    "id": "black-swan",
+    "name": "Black Swan",
+    "description": "A dangerous card that can end the run.",
+    "rarity": "DANGEROUS",
+    "chance": 12,
+    "minDifficulty": 35,
+    "maxDifficulty": 100,
+    "classification": "DEATH",
+    "effects": [{"type":"DEATH","damage":1}]
+  },
+  {
+    "id": "collector",
+    "name": "Collector's Seal",
+    "description": "Awards a registered collectible.",
+    "rarity": "RARE",
+    "chance": 6,
+    "minDifficulty": 1,
+    "maxDifficulty": 100,
+    "classification": "COLLECTIBLE",
+    "effects": [{"type":"COLLECTIBLE","itemId":"velvet-seal"}]
+  }
+]

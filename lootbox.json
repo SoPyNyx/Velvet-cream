@@ -1,0 +1,8 @@
+{
+  "chancePercent": 10,
+  "duplicateRewardVP": 15,
+  "rewards": [
+    {"type":"VP","weight":70,"min":25,"max":150},
+    {"type":"COLLECTIBLE","weight":30,"itemId":"velvet-seal"}
+  ]
+}

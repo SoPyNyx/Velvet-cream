@@ -1,0 +1,20 @@
+[
+  {
+    "id": "velvet-seal",
+    "name": "Velvet Seal",
+    "description": "A mark of surviving the Deck.",
+    "rarity": "RARE",
+    "collection": "VELVET",
+    "image": null,
+    "icon": "◇"
+  },
+  {
+    "id": "red-chip",
+    "name": "Red Chip",
+    "description": "A casino relic.",
+    "rarity": "COMMON",
+    "collection": "CASINO",
+    "image": null,
+    "icon": "◆"
+  }
+]
