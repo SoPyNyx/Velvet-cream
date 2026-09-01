@@ -26,7 +26,7 @@ function deckFor(d){
   const deaths=result.filter(c=>c.classification==="DEATH"||c.effects?.some(e=>e.type==="DEATH")).length;
   const allowed=deathSlots(d);
   if(deaths>allowed){
-    const safe=positive.find(c=>!result.some(x=>x.id===x.id));
+    const safe=positive.find(c=>!result.some(x=>x.id===c.id));
     if(safe){
       for(let i=0;i<result.length;i++){
         if(result[i].classification==="DEATH"||result[i].effects?.some(e=>e.type==="DEATH")){result[i]=safe;break;}
